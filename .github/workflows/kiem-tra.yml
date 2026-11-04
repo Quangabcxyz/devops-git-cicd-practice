@@ -1,0 +1,20 @@
+name: Kiem tra bai thuc hanh
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  kiem-tra:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lay ma nguon
+        uses: actions/checkout@v4
+      - name: Kiem tra README
+        run: |
+          test -s README.md
+          echo "README.md ton tai va co noi dung."
