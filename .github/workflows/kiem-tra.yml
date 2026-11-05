@@ -14,7 +14,8 @@ jobs:
     steps:
       - name: Lay ma nguon
         uses: actions/checkout@v4
-      - name: Kiem tra README
+      - name: Kiem tra tai lieu
         run: |
           test -s README.md
-          echo "README.md ton tai va co noi dung."
+          test -s GIT_WORKFLOW.md
+          echo "Cac tai lieu thuc hanh ton tai va co noi dung."
