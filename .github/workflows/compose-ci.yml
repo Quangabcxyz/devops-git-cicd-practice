@@ -1,0 +1,22 @@
+name: Kiem tra cau hinh Compose
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compose-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lay ma nguon
+        uses: actions/checkout@v4
+      - name: Kiem tra Docker va Compose
+        run: |
+          docker --version
+          docker compose version
+      - name: Kiem tra cau hinh Compose
+        run: docker compose -f compose.yaml config --quiet
