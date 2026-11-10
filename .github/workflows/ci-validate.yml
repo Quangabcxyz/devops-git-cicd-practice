@@ -1,0 +1,32 @@
+name: DEV-23 - CI validate lab
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Validate Docker Compose
+        run: docker compose -f compose.yaml config --quiet
+      - name: Check lab documentation
+        run: |
+          test -s README.md
+          test -s README_LAB.md
+      - name: Record safe verification summary
+        run: |
+          mkdir -p ci-evidence
+          printf '%s\n' 'Compose configuration validated.' 'README.md and README_LAB.md are non-empty.' 'No container or application tests were run.' > ci-evidence/summary.txt
+      - name: Upload non-sensitive evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: dev23-validation-summary
+          path: ci-evidence/summary.txt
+          if-no-files-found: error
+          retention-days: 7
